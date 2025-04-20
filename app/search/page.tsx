@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
+import { AiOutlineHome } from 'react-icons/ai'
 
 interface SearchResult {
   title: string
@@ -50,7 +51,7 @@ export default function SearchPage() {
       }, 2000)
 
       try {
-        const response = await fetch(`http://localhost:8080/search?query=${encodeURIComponent(initialQuery)}`)
+        const response = await fetch(`http://192.168.137.1:5500/search?query=${encodeURIComponent(initialQuery)}`)
         if (!response.ok) {
           throw new Error('Failed to fetch search results')
         }
@@ -84,7 +85,10 @@ export default function SearchPage() {
     <div className="min-h-screen bg-black text-gray-200 px-4 sm:px-6 overflow-x-hidden">
       {/* Header with Search */}
       <header className="pt-16 pb-8">
-        
+        {/* Home Icon */}
+        <a href="/" className="text-gray-300 hover:text-white transition-colors">
+          <AiOutlineHome size={40} />
+        </a>
         <div className="max-w-3xl mx-auto">
           <form onSubmit={handleSearch} className="mb-6">
             <div className={`inline-flex flex-wrap items-center border-b ${isFocused ? 'border-white' : 'border-gray-800'} pb-1 transition-colors duration-200`}>
@@ -119,7 +123,7 @@ export default function SearchPage() {
           {error && (
             <div className="border border-gray-800 rounded-lg p-4 sm:p-6 text-center">
               <p className="text-gray-400 text-sm sm:text-base">{error}</p>
-              <Button 
+              <Button
                 className="mt-4 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700"
                 onClick={handleSearch}
               >
@@ -136,31 +140,32 @@ export default function SearchPage() {
 
           {result && (
             <div className="space-y-8">
-              <h2 className="text-xl sm:text-2xl font-light text-white mb-4 sm:mb-8">{result.title}</h2>
-              
-              {result.content.map((paragraph, index) => (
-                <p key={index} className="text-gray-400 leading-relaxed text-sm sm:text-base">
-                  {paragraph}
-                </p>
-              ))}
+              <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
+                {result.para}
+              </p>
 
-              {result.relatedsearch.length > 0 && (
-                <div className="mt-10 pt-8 border-t border-gray-800">
-                  <h3 className="text-base sm:text-lg font-light text-white mb-4">Related Topics</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {result.relatedsearch.map((term, index) => (
-                      <Button
-                        key={index}
-                        variant="outline"
-                        className="text-gray-300 hover:text-white border border-gray-700 bg-gray-900 hover:bg-gray-800 rounded-full text-xs sm:text-sm"
-                        onClick={() => handleRelatedSearch(term)}
-                      >
-                        {term}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
+              {result.points.length > 0 && (
+                <ul className="list-disc list-inside text-gray-400 text-sm sm:text-base">
+                  {result.points.map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))}
+                </ul>
               )}
+              <div className="mt-10 pt-8 border-t border-gray-800">
+                <h3 className="text-base sm:text-lg font-light text-white mb-4">Related Topics</h3>
+                <div className="flex flex-wrap gap-2">
+                  {result.relatedsearch.map((term, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      className="text-gray-300 hover:text-white border border-gray-700 bg-gray-900 hover:bg-gray-800 rounded-full text-xs sm:text-sm"
+                      onClick={() => handleRelatedSearch(term)}
+                    >
+                      {term}
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -36,7 +36,7 @@ export default function Home() {
     const fetchNews = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('http://localhost:8080/articles')
+        const response = await fetch('http://192.168.137.1:5500/articles')
         const data = await response.json()
         setNewsArticles(data)
       } catch (error) {
@@ -63,7 +63,7 @@ export default function Home() {
   const [displayText, setDisplayText] = useState('');
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const typingSpeed = 1; // Made constant
+  const typingSpeed = 2; // Made constant
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -109,9 +109,14 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-gray-100 flex flex-col">
+    <div className="min-h-screen text-gray-100 flex flex-col" style={{
+      backgroundImage: `url('/bg.svg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    }}>,
       {/* Top Branding */}
-      <header className="w-full p-4 flex justify-center items-center pt-12">
+      <header className="w-full p-4 flex justify-center items-center pt-12" >
         <img
           src="CLARITY.png"
           alt="logo"
@@ -121,7 +126,12 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow flex flex-col items-center justify-start px-4 text-center pt-40">
+      <main className="flex-grow flex flex-col items-center justify-start px-4 text-center pt-40" style={{
+    backgroundImage: `url('/bg.svg')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }}>
         <p className="text-gray-400 mb-4 text-2xl">
           World news just a search away...
         </p>
@@ -155,7 +165,7 @@ export default function Home() {
     </div>
         
         {/* Cards */}
-        <div className="flex flex-wrap gap-2 bg-black p-4 items-center justify-center text-white">
+        <div className="flex flex-wrap gap-2 p-4 items-center justify-center text-white">
           {/* Card 1 */}
           <div
             className="bg-[#1c1c1e] rounded-xl px-3 py-2 w-40 flex items-center gap-1 cursor-pointer hover:bg-gray-800 transition"
@@ -231,12 +241,11 @@ export default function Home() {
         <div className="mt-4 flex gap-4">
           <Drawer>
             <DrawerTrigger asChild>
-            <div className="flex flex-col items-center">
-              <button className="flex items-center gap-2 text-gray-400 hover:text-white text-xl transition duration-200 font-medium hover:cursor-pointer">
-                <FontAwesomeIcon icon={faGlobe} className="text-2xl" />
-                <span>E X P L O R E</span>
-              </button>
-            </div>
+            <div className="flex flex-row items-center justify-center">
+            <button className="flex items-center gap-2 text-gray-400 hover:text-white text-xl font-medium hover:cursor-pointer">
+            <FontAwesomeIcon icon={faGlobe} className="text-2xl" /><span>E X P L O R E</span>
+          </button>
+        </div>
             </DrawerTrigger>
 
             <DrawerContent className="bg-black border-t border-gray-800 h-[80vh] overflow-hidden rounded-t-2xl transition-all duration-300">
