@@ -151,6 +151,28 @@ export default function SearchPage() {
                   ))}
                 </ul>
               )}
+
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-gray-400 font-bold text-sm sm:text-base">Sources:</span>
+                {result.sources_url.map((source, index) => (
+                  <a
+                    key={index}
+                    href={source}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-1 bg-gray-900 hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-700 rounded-full text-xs sm:text-sm"
+                  >
+                    <img
+                      src={`${new URL(source).origin}/favicon.ico`}
+                      alt="favicon"
+                      className="w-4 h-4"
+                      onError={(e) => (e.currentTarget.style.display = 'none')}
+                    />
+                    <span className="truncate">{new URL(source).hostname}</span>
+                  </a>
+                ))}
+              </div>
+
               <div className="mt-10 pt-8 border-t border-gray-800">
                 <h3 className="text-base sm:text-lg font-light text-white mb-4">Related Topics</h3>
                 <div className="flex flex-wrap gap-2">
